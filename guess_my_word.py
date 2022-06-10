@@ -14,6 +14,10 @@ Copyright: <year>
 # See https://github.com/3b1b/videos/blob/68ca9cfa8cf5a41c965b2015ec8aa5f2aa288f26/_2022/wordle/simulations.py#L104
 
 
+from random import choice
+from sys import stdout
+
+
 MISS = 0  # _-.: letter not found ⬜
 MISSPLACED = 1  # O, ?: letter in wrong place 🟨
 EXACT = 2  # X, +: right letter, right place 🟩
@@ -21,9 +25,10 @@ EXACT = 2  # X, +: right letter, right place 🟩
 MAX_ATTEMPTS = 6
 WORD_LENGTH = 5
 
-ALL_WORDS = 'file/path/of/words.txt'
-TARGET_WORDS = 'file/path/of/target_words.txt'
-
+ALL_WORDS = 'word-bank/all_words.txt'
+TARGET_WORDS = 'word-bank/target_words.txt'
+# TODO: Add linebreak after each guess
+# TODO: Add guesses after each guess
 
 def play():
     """Code that controls the interactive game play"""
@@ -32,14 +37,21 @@ def play():
     # build a list of valid words (words that can be entered in the UI):
     valid_words = get_valid_words()
     # do the following in an iteration construct
-    guess = ask_for_guess(valid_words)
-    score = score_guess(guess, word_of_the_day)
-    print("Result of your guess:")  # Put some of your own personality into this!
-    print(format_score(guess, score))
-    if is_correct(score):
-        print("Winner: You need to write code to exit out of this loop")
+    guesses = 0
+    while True:
+        guess = ask_for_guess(valid_words)
+        score = score_guess(guess, word_of_the_day)
+        print("Result of your guess:")  # Put some of your own personality into this!
+        print(format_score(guess, score))
+        guesses += 1
+        if is_correct(score):
+            print("Winner: You guessed a total of " + str(guesses) + " times")
+            return True
+        if guesses >= MAX_ATTEMPTS:
+            print("You've ran out of guesses")
+            return False
     # end iteration
-    return True
+    # return True
 
 
 def is_correct(score):
@@ -53,6 +65,8 @@ def is_correct(score):
     False
     >>> is_correct((2,2,2,2,2))
     True"""
+    if score == (2,2,2,2,2):
+        return True
     return False
 
 
@@ -68,8 +82,11 @@ def get_valid_words(file_path=ALL_WORDS):
 
     """
     # read words from files and return a list containing all words that can be entered as guesses
-
-    return ['wibble', 'wobble', 'wubble', 'wabble']
+    file = open(file_path, "r")
+    word_list = file.read().splitlines()
+    file.close()
+    return word_list
+    # return ['wibble', 'wobble', 'wubble', 'wabble']
 
 
 def get_target_word(file_path=TARGET_WORDS, seed=None):
@@ -90,7 +107,11 @@ def get_target_word(file_path=TARGET_WORDS, seed=None):
 
     """
     # read words from a file and return a random word (word of the day)
-    return 'woble'
+    file = open(file_path,'r')
+    list_words = file.read().splitlines()
+    file.close()
+    return choice(list_words)
+    # return 'woble'
 
 
 def ask_for_guess(valid_words):
@@ -98,7 +119,14 @@ def ask_for_guess(valid_words):
     Returns:
         str: the guess chosen by the user. Ensures guess is a valid word of correct length in lowercase
     """
-    return 'wibble'
+    while True:
+        user_input = input("Please input a 5 letter word: ")
+        if user_input.lower() in valid_words:
+            break
+        else:
+            print(user_input + " is not a valid input")
+    return user_input
+    # return 'wibble'
 
 
 def score_guess(guess, target_word):
@@ -124,7 +152,28 @@ def score_guess(guess, target_word):
     (2, 1, 0, 0, 1)
         """
     # You must use this convention as test automation will be validating your scorer
-    return 0, 0, 0, 0, 0
+
+    # num_list = [0, 0, 0, 0, 0]
+    # for index, char in enumerate(guess):
+    #     if char == target_word[index]:
+    #         num_list[index] = 2
+    #     elif char in target_word:
+    #         num_list[index] = 1
+    #     else:
+    #         num_list[index] = 0
+    # return tuple(num_list)
+
+    num_list = [0, 0, 0, 0, 0]
+    char_correct = []
+    for index, char in enumerate(guess):
+        if char == target_word[index]:
+            num_list[index] = 2
+            char_correct += char
+    for index, char in enumerate(guess):
+        if char in target_word and char not in char_correct:
+            num_list[index] = 1
+    return tuple(num_list)
+    # return 0, 0, 0, 0, 0
 
 
 def help():
@@ -148,7 +197,21 @@ def format_score(guess, score):
     >>> print(format_score('hello', (2,2,2,2,2)))
     H E L L O
     + + + + +"""
-    pass
+    
+    string_guess = ""
+    for char in guess:
+        string_guess += char.upper() + " "
+    string_guess.strip()
+    string_score = ""
+    for num in score:
+        if num == 2:
+            string_score += "+ "
+        elif num == 1:
+            string_score += "? "
+        else:
+            string_score += "_ "
+    string_score.strip()
+    return string_guess + "\n" + string_score
 
 
 def main(test=False):
