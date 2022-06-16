@@ -27,28 +27,38 @@ WORD_LENGTH = 5
 
 ALL_WORDS = 'word-bank/all_words.txt'
 TARGET_WORDS = 'word-bank/target_words.txt'
-# TODO: Add linebreak after each guess
-# TODO: Add guesses after each guess
-# TODO: Say word after exhausted guesses
-# TODO: replace Magic numbers with set constants
+
 # TODO: List comprehension where possible
+
 
 def play():
     """Code that controls the interactive game play"""
     word_of_the_day = get_target_word()
     valid_words = get_valid_words()
     guesses = 0
+    emoji_string = None
+    guessed_words = None
     while True:
         guess = ask_for_guess(valid_words)
         score = score_guess(guess, word_of_the_day)
         print("Result of your guess:")
-        print(format_score(guess, score))
+        print(format_guess_string(guess, score))
         guesses += 1
+        print("")
+        guessed_words = format_guessed_words(guess.upper(),guessed_words)
+        print("Guessed words: " + guessed_words)
+        if emoji_string == None:
+            emoji_string = format_score(score)
+        else:
+            emoji_string += "\n" + format_score(score)
         if is_correct(score):
             print("Winner: You guessed a total of " + str(guesses) + " times")
+            print("")
+            print("Guess my Word! " + str(guesses) + "/" + str(MAX_ATTEMPTS) + "\n" + emoji_string)
             return True
         if guesses >= MAX_ATTEMPTS:
             print("You've ran out of guesses")
+            print("The word was " + word_of_the_day.upper())
             return False
 
 def is_correct(scores):
@@ -143,11 +153,11 @@ def score_guess(guess, target_word):
     char_correct = []
     for index, char in enumerate(guess):
         if char == target_word[index]:
-            num_list[index] = 2
+            num_list[index] = EXACT
             char_correct += char
     for index, char in enumerate(guess):
         if char in target_word and char not in char_correct:
-            num_list[index] = 1
+            num_list[index] = MISSPLACED
     return tuple(num_list)
 
 
@@ -156,7 +166,7 @@ def help():
     pass
 
 
-def format_score(guess, score):
+def format_guess_string(guess, score):
     """Formats a guess with a given score as output to the terminal.
     The following is an example output (you can change it to meet your own creative ideas, 
     but be sure to update these examples)
@@ -177,6 +187,10 @@ def format_score(guess, score):
     for char in guess:
         string_guess += char.upper() + " "
     string_guess = string_guess.strip()
+    string_score = format_score(score)
+    return string_guess + "\n" + string_score
+
+def format_score(score):
     string_score = ""
     for num in score:
         if num == EXACT:
@@ -186,7 +200,46 @@ def format_score(guess, score):
         else:
             string_score += "_ "
     string_score = string_score.strip()
-    return string_guess + "\n" + string_score
+    return string_score
+
+def format_guessed_words(word, guessed_words):
+    if guessed_words == None:
+        guessed_words = word
+    else:
+        guessed_words += " " + word
+    return guessed_words
+
+# class EmojiGrid:
+#     num_guesses = None
+#     guesses_string = None
+
+#     def __init__(self):
+#         self.num_guesses = 0
+
+#     def format_guess(guess):
+#         string_score = ""
+#         for num in guess:
+#             if num == EXACT:
+#                 string_score += "+ "
+#             elif num == MISSPLACED:
+#                 string_score += "? "
+#             else:
+#                 string_score += "_ "
+#         return string_score
+
+#     def add_guess(guess, self):
+#         guess_formatted = format_guess(guess)
+#         if self.guesses_string == None:
+#             self.guesses_string = guess_formatted
+#             self.num_guesses += 1
+#         else:
+#             self.guesses_string += "\n" + guess_formatted
+#             self.num_guesses += 1
+
+#     def print_emoji_string(self):
+#         print("Guess my Word! " + self.num_guesses + "/" + MAX_ATTEMPTS + "\n" + self.guesses_string)
+
+
 
 
 def main(test=False):
