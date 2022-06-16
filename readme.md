@@ -134,35 +134,28 @@ flowchart LR
 > 
 > Your algorithm must clearly and unambiguously describe how to arrive at the scores above and any other valid inputs.
 <br>
-```python
-################################################
-# EXAMPLE ONLY: DELETE AND WRITE YOUR OWN      #
-################################################
-# 1. Split characters in guess into a list
-# 2. Split characters in word into a list
-# 3. Do something for each character in the guess
-# 4. Do something else for each character in the guess
-# 5. Score each character according to this flowchart:
-# <flowchart>
 ```
->Example flowchart (**SAMPLE ONLY**):
-```mermaid
-flowchart TD
-    start([start])
-    input[/guess:target_word/]
-    isInWord{Is char in target?}
-    isExactPosition{Is char in correct position}
-    outMiss([miss: 0])
-    outExact([exact: 2])
-    tbd[[<em>develop your algorithm</em>]]
-    start -->|get guess, target| input
-    input --> |for each char in guess| isInWord
-    isInWord --> | No | outMiss
-    isInWord --> | Yes | isExactPosition
-    isExactPosition --> | Yes | outExact
-    isExactPosition --> | <b>No</b> | tbd
+1. Create a int list with 5 (Word size) 0 values.
+2. Use a 'for' function to enumerate over each character in the guess, using the below flowchart to score: 
 ```
 
+```mermaid
+flowchart TD
+    foreach(foreach char index in guess)
+    ifexact([if: guess index equals target index])
+    equalsexact[score index equals 2]
+    ifexact--true-->equalsexact
+    foreach-->ifexact
+    ifmissplaced(if: guess index is in target)
+    equalsmissplaced[score index equals 1]
+    ifexact--false-->ifmissplaced
+    ifmissplaced--true-->equalsmissplaced
+    equalsmissplaced-->foreach
+    equalsexact-->foreach
+```
+```
+3. Return the list as a tuple.
+```
 
 ## Delivery roadmap
 The following is a proposed roadmap for delivering the working prototype. You can use this chart or create your own:

@@ -209,38 +209,6 @@ def format_guessed_words(word, guessed_words):
         guessed_words += " " + word
     return guessed_words
 
-# class EmojiGrid:
-#     num_guesses = None
-#     guesses_string = None
-
-#     def __init__(self):
-#         self.num_guesses = 0
-
-#     def format_guess(guess):
-#         string_score = ""
-#         for num in guess:
-#             if num == EXACT:
-#                 string_score += "+ "
-#             elif num == MISSPLACED:
-#                 string_score += "? "
-#             else:
-#                 string_score += "_ "
-#         return string_score
-
-#     def add_guess(guess, self):
-#         guess_formatted = format_guess(guess)
-#         if self.guesses_string == None:
-#             self.guesses_string = guess_formatted
-#             self.num_guesses += 1
-#         else:
-#             self.guesses_string += "\n" + guess_formatted
-#             self.num_guesses += 1
-
-#     def print_emoji_string(self):
-#         print("Guess my Word! " + self.num_guesses + "/" + MAX_ATTEMPTS + "\n" + self.guesses_string)
-
-
-
 
 def main(test=False):
     if test:
