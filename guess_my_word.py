@@ -38,6 +38,7 @@ def play():
     guesses = 0
     emoji_string = None
     guessed_words = None
+    help()
     while True:
         guess = ask_for_guess(valid_words)
         score = score_guess(guess, word_of_the_day)
@@ -163,6 +164,13 @@ def score_guess(guess, target_word):
 
 def help():
     """Provides help for the game"""
+    print("Welcome to 'Guess my Word'!")
+    print("This is a command line game inspired by 'Wordle'.")
+    print(f"To play, you must guess a {WORD_LENGTH} letter word by inputting guesses.")
+    print("Your guesses are scored by each character, '+' for exact characters,")
+    print("'?' for missplaced characters and '_' for characters that dont exist.")
+    print(f"You have {MAX_ATTEMPTS} tries to guess the word. Good luck!")
+    print("")
     pass
 
 
@@ -211,9 +219,9 @@ def format_guessed_words(word, guessed_words):
 
 
 def main(test=False):
-    if test:
-        import doctest
-        return doctest.testmod()
+    # if test:
+    #     import doctest
+    #     return doctest.testmod()
     play()
 
 

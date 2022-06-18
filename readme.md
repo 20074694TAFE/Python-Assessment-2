@@ -10,16 +10,16 @@
 ## ❗️ Tasks
 You must complete the following tasks before submitting the assessment:
 - [x] Read through the project requirements in the project Word document on Blackboard
-- [ ] Read through this document in its entirety
-- [ ] Ensure you understand that you **must** keep a journal of your development progress in the Word document
-- [ ] Produce a plan for developing your code
-- [ ] Complete all sections in this document marked with ❗️
-- [ ] Complete the [code](#flow) according to the specification and ensure it passes the bundled test cases and at least one other test case you yourself developed
-- [ ] Submit a `zip` file containing:
-  - [ ]  the completed Word document (journal)
-  - [ ]  this `readme.md` with the appropriate sections filled in
-  - [ ]  a working version of your game, written in Python
-  - [ ]  any and all supporting files required to run your program
+- [x] Read through this document in its entirety
+- [x] Ensure you understand that you **must** keep a journal of your development progress in the Word document
+- [x] Produce a plan for developing your code
+- [x] Complete all sections in this document marked with ❗️
+- [x] Complete the [code](#flow) according to the specification and ensure it passes the bundled test cases and at least one other test case you yourself developed
+- [x] Submit a `zip` file containing:
+  - [x]  the completed Word document (journal)
+  - [x]  this `readme.md` with the appropriate sections filled in
+  - [x]  a working version of your game, written in Python
+  - [x]  any and all supporting files required to run your program
 
 
 ## User Documentation
